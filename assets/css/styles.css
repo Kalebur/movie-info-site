@@ -1,4 +1,9 @@
+:root {
+  --font-sans: "Source Sans Pro", sans-serif;
+  --font-serif: "Source Serif Pro", serif;
+}
+
 body {
-  background-color: #222;
+  background-color: #112;
   color: #fff;
 }

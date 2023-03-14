@@ -64,7 +64,7 @@ async function getUpcomingMovies() {
     return dateA - dateB;
   });
 
-  return { movies: movies, upcoming: upcoming };
+  return upcoming;
 }
 
 function genreList() {
