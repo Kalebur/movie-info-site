@@ -56,19 +56,49 @@ async function getUpcomingMovies() {
     page++;
   }
 
-  // sort upcoming by date
-  upcoming = upcoming.sort((a, b) => {
+  // return upcoming list sorted by release date
+  return upcoming.sort((a, b) => {
     const dateA = new Date(a.release_date);
     const dateB = new Date(b.release_date);
 
     return dateA - dateB;
   });
+}
 
-  return upcoming;
+async function getNowPlaying() {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.MOVIE}&language=en-US&page=1`
+  );
+  const movies = await response.json();
+
+  return movies.results.filter((item) => {
+    const release = new Date(item.release_date);
+    const earliestRelease = zeroClock(new Date());
+    earliestRelease.setDate(earliestRelease.getDate() - 30);
+
+    return release > earliestRelease && release <= new Date();
+  });
+}
+
+async function getTrending(type = "movie") {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/trending/${type}/day?api_key=${process.env.MOVIE}`
+  );
+  const trendingMedia = await response.json();
+
+  return trendingMedia.results.filter((item) => {
+    return item.original_language === "en" && item.adult === false;
+  });
 }
 
 function genreList() {
   return genres;
 }
 
-module.exports = { getUpcomingMovies, initializeGenres, genreList };
+module.exports = {
+  getUpcomingMovies,
+  initializeGenres,
+  genreList,
+  getNowPlaying,
+  getTrending,
+};
