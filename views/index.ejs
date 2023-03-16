@@ -1,5 +1,18 @@
 <%- include('site-head.ejs') -%>
 <body>
+  <header>
+    <label for="search" class="sr-only"
+      >Search for a movie, tv show, or actor</label
+    >
+    <input
+      class="search-field"
+      type="search"
+      name="search"
+      id="search"
+      placeholder="Search..."
+    />
+    <button class="btn-search"><span class="hamburger"></span></button>
+  </header>
   <main>
     <section class="hero">
       <h1>Chunky Chicken Entertainment</h1>
