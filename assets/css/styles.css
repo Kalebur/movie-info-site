@@ -16,6 +16,8 @@
 
   --radius-xsmall: 0.2rem;
   --radius-small: 0.4rem;
+  --radius-xlarge: 1rem;
+  --radius-circle: 50%;
 
   --transition-default: all 0.4s;
 
@@ -124,10 +126,11 @@ h3 {
 }
 
 h1 {
+  margin-bottom: 1.5rem;
+
   font-size: 4rem;
   text-align: center;
-  color: var(--color-primary);
-  margin-bottom: 1.5rem;
+  text-transform: uppercase;
 }
 
 h2 {
@@ -135,8 +138,11 @@ h2 {
   font-family: var(--font-serif);
 }
 
+/* ================ MAIN STYLING ================ */
+
 section {
   padding: 0.5rem;
+  position: relative;
 }
 
 .section-header {
@@ -159,12 +165,12 @@ section {
 
 .media-list {
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   margin: 2rem 0 3rem 0;
 }
 
 .media-list .poster:not(:first-of-type) {
-  margin-left: 0.5rem;
+  margin-left: 0.75rem;
 }
 
 .poster {
@@ -172,7 +178,7 @@ section {
 }
 
 .poster img {
-  border-radius: var(--radius-xsmall);
+  border-radius: var(--radius-small);
 }
 
 /* ================ FOOTER STYLING ================ */
@@ -197,11 +203,14 @@ footer {
   padding: 4rem 2rem;
 }
 
+#bottom-nav ul li {
+  margin-bottom: 1.25rem;
+}
+
 #bottom-nav a {
   text-decoration: none;
   transition: var(--transition-default);
   color: var(--color-text);
-  margin-bottom: 0.75rem;
 
   font-family: var(--font-sans);
 }
@@ -228,6 +237,134 @@ footer {
   margin-left: 0.5rem;
 }
 
+/* ================ MODAL STYLING ================ */
+.modal {
+  width: 100%;
+  height: 100vh;
+  content: "";
+  overflow-y: auto;
+  overflow-x: hidden;
+  pointer-events: none;
+  padding: 1rem;
+  opacity: 100%;
+  transition: var(--transition-default);
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 20;
+
+  background-color: var(--color-background);
+  background-size: cover;
+  background-position: 50% 50%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+
+.modal.active {
+  pointer-events: initial;
+}
+
+.modal.modal-hidden {
+  opacity: 0;
+}
+
+.btn-close-modal {
+  height: 5rem;
+  width: 5rem;
+  border: none;
+  outline: none;
+  background-color: var(--color-primary);
+  color: var(--color-text);
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+
+  position: absolute;
+  top: 1rem;
+  right: 3rem;
+  border-radius: var(--radius-circle);
+
+  font-size: 2.5rem;
+}
+
+.media-info-container {
+  position: absolute;
+  top: 40%;
+  overflow-x: hidden;
+}
+
+.media-name {
+  font-size: 3rem;
+  margin-bottom: 1.5rem;
+  max-width: 100%;
+}
+
+.media-name::after {
+  width: 80%;
+}
+
+.genre-list {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.genre-tag {
+  display: inline-block;
+  color: var(--color-text);
+  background-color: var(--color-primary);
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-xlarge);
+  pointer-events: none;
+  margin-bottom: 1rem;
+
+  font-size: 1.8rem;
+  font-family: var(--font-sans);
+  font-weight: 400;
+}
+
+.genre-tag:not(:last-of-type) {
+  margin-right: 1rem;
+}
+
+.release-and-score {
+  margin: 1rem 0;
+}
+
+.release-date,
+.media-desc {
+  font-size: 2rem;
+}
+
+.release-date {
+  font-family: var(--font-sans);
+}
+
+.media-desc {
+  margin-top: 0.5rem;
+  padding-right: 1rem;
+  line-height: 3rem;
+}
+
+/* ================ DESKTOP STYLING ================ */
+@media screen and (min-width: 960px) {
+  .hero {
+    height: 100vh;
+  }
+
+  .media-list {
+    scrollbar-width: none;
+  }
+
+  .media-list::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 /* ================ UTILITY CLASSES ================ */
 .no-display {
   display: none;
@@ -239,5 +376,9 @@ footer {
   position: absolute;
   top: 0;
   left: 0;
+  overflow: hidden;
+}
+
+.no-scroll {
   overflow: hidden;
 }

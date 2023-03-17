@@ -1,4 +1,4 @@
-<%- include('site-head.ejs') -%>
+<%- include('./partials/site-head.ejs') -%>
 <body>
   <header>
     <label for="search" class="sr-only"
@@ -18,23 +18,24 @@
       <h1>Chunky Chicken Entertainment</h1>
       <h2>Your Source for Movie and TV Info</h2>
     </section>
-    <section class="upcoming">
+    <section class="upcoming" id="upcoming">
       <h2 class="section-header">Upcoming Releases</h2>
       <ul class="media-list"></ul>
     </section>
-    <section class="now-playing">
+    <section class="now-playing" id="now-playing">
       <h2 class="section-header">Now in Theaters</h2>
       <ul class="media-list"></ul>
     </section>
-    <section class="trending-movies">
+    <section class="trending-movies" id="trending-movies">
       <h2 class="section-header">Trending Movies</h2>
       <ul class="media-list"></ul>
     </section>
-    <section class="trending-tv">
+    <section class="trending-tv" id="trending-tv">
       <h2 class="section-header">Trending TV</h2>
       <ul class="media-list"></ul>
     </section>
   </main>
-  <script src="js/index.js"></script>
+  <%- include('./partials/modal.ejs'); -%>
+  <script src="js/index.js" type="module"></script>
 </body>
-<%- include('footer.ejs') -%>
+<%- include('./partials/footer.ejs') -%>

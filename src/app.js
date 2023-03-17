@@ -4,6 +4,11 @@ const ejs = require("ejs");
 const path = require("path");
 const dotenv = require("dotenv").config();
 const api = require("./api.js");
+const open = require("open");
+
+async function openBrowser() {
+  await open("http://localhost:3000");
+}
 
 app.use(express.static(path.join(__dirname, "../assets/")));
 app.set("view engine", "ejs");
@@ -28,7 +33,16 @@ app.get("/trending-tv", (req, res) => {
   api.getTrending("tv").then((data) => res.send(data));
 });
 
+app.get("/all-genres", (req, res) => {
+  res.send(api.genreList());
+});
+
+app.get("/cast/:media_id", (req, res) => {
+  res.send(req.params.media_id);
+});
+
 app.listen(3000, () => {
   api.initializeGenres();
   console.log("App running on port 3000");
+  // openBrowser();
 });
