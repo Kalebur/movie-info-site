@@ -295,6 +295,7 @@ footer {
   position: absolute;
   top: 40%;
   overflow-x: hidden;
+  width: calc(100% - 2rem);
 }
 
 .media-name {
@@ -348,6 +349,10 @@ footer {
   margin-top: 0.5rem;
   padding-right: 1rem;
   line-height: 3rem;
+}
+
+#similar-header {
+  margin: 2rem 0;
 }
 
 /* ================ DESKTOP STYLING ================ */

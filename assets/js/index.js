@@ -3,16 +3,25 @@ const body = document.querySelector("body");
 import { createGenreTag, createPosterItem } from "./createItems.js";
 import { parseDate } from "./helpers.js";
 
-async function populateModalData(data) {
+async function getRecommendedMedia(query) {
+  const response = await fetch(`/recommended/${query}`);
+  const data = response.json();
+
+  return data;
+}
+
+export async function populateModalData(data) {
   const title = document.querySelector(".media-name");
   const response = await fetch("/all-genres");
   const genres = await response.json();
   const genreList = document.querySelector(".genre-list");
   const releaseDateField = document.querySelector(".release-date");
   const overview = document.querySelector(".media-desc");
+  const mediaType = data.title ? "movie" : "tv";
   genreList.innerHTML = "";
   console.log(data);
   console.log(genres);
+  setModalBG(data);
 
   title.textContent = data.title || data.name;
   data.genre_ids.forEach((g) => {
@@ -34,22 +43,38 @@ async function populateModalData(data) {
     releaseDateField.classList.remove("no-display");
   }
   overview.textContent = data.overview;
+
+  const queryString = `${data.id}:${mediaType}`;
+  console.log(queryString);
+  const similarMedia = await getRecommendedMedia(queryString);
+  const similarHeader = document.querySelector("#similar-header");
+  const similarList = document.querySelector("#similar-list");
+  similarList.innerHTML = "";
+
+  similarMedia.forEach((item) => {
+    similarList.appendChild(createPosterItem(item, "modal"));
+  });
+
+  similarList.scrollLeft = 0;
+  modal.scrollTop = 0;
 }
 
 export function displayModal(mediaInfo) {
-  const baseUrl = "https://image.tmdb.org/t/p/w500";
-  const bgStyle = `linear-gradient(to top, #000510 10%, rgba(0, 5, 16, 0.7)), url('${
-    baseUrl + mediaInfo.poster_path
-  }')`;
-
   populateModalData(mediaInfo);
 
   modal.style.top = `${window.scrollY}px`;
-  modal.style.backgroundImage = bgStyle;
   modal.classList.remove("modal-hidden");
   modal.classList.add("active");
 
   body.classList.add("no-scroll");
+}
+
+function setModalBG(mediaInfo) {
+  const baseUrl = "https://image.tmdb.org/t/p/w500";
+  const bgStyle = `linear-gradient(to top, #000510 10%, rgba(0, 5, 16, 0.7)), url('${
+    baseUrl + mediaInfo.poster_path
+  }')`;
+  modal.style.backgroundImage = bgStyle;
 }
 
 function closeModal() {

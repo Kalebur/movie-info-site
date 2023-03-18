@@ -91,6 +91,17 @@ async function getTrending(type = "movie") {
   });
 }
 
+async function getRecommendations(mediaID, type = "movie") {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/${type}/${mediaID}/similar?api_key=${process.env.MOVIE}`
+  );
+  const recommendations = await response.json();
+
+  return recommendations.results.filter((item) => {
+    return item.original_language === "en" && item.adult === false;
+  });
+}
+
 function genreList() {
   return genres;
 }
@@ -100,5 +111,6 @@ module.exports = {
   initializeGenres,
   genreList,
   getNowPlaying,
+  getRecommendations,
   getTrending,
 };

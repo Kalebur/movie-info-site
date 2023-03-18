@@ -41,6 +41,14 @@ app.get("/cast/:media_id", (req, res) => {
   res.send(req.params.media_id);
 });
 
+app.get("/recommended/:media_query", (req, res) => {
+  let queryParams = req.params.media_query.split(":");
+
+  api
+    .getRecommendations(queryParams[0], queryParams[1])
+    .then((data) => res.send(data));
+});
+
 app.listen(3000, () => {
   api.initializeGenres();
   console.log("App running on port 3000");

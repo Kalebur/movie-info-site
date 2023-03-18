@@ -1,6 +1,6 @@
-import { displayModal } from "./index.js";
+import { displayModal, populateModalData } from "./index.js";
 
-export function createPosterItem(mediaInfo) {
+export function createPosterItem(mediaInfo, type = "top-level") {
   const listItem = document.createElement("li");
   const posterImg = document.createElement("img");
 
@@ -10,9 +10,15 @@ export function createPosterItem(mediaInfo) {
 
   listItem.appendChild(posterImg);
   listItem.classList.add("poster");
-  listItem.addEventListener("click", () => {
-    displayModal(mediaInfo);
-  });
+  if (type === "top-level") {
+    listItem.addEventListener("click", () => {
+      displayModal(mediaInfo);
+    });
+  } else if (type === "modal") {
+    listItem.addEventListener("click", () => {
+      populateModalData(mediaInfo);
+    });
+  }
 
   return listItem;
 }
