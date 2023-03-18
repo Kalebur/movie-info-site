@@ -1,41 +1,27 @@
-<%- include('./partials/site-head.ejs') -%>
-<body>
-  <header>
-    <label for="search" class="sr-only"
-      >Search for a movie, tv show, or actor</label
-    >
-    <input
-      class="search-field"
-      type="search"
-      name="search"
-      id="search"
-      placeholder="Search..."
-    />
-    <button class="btn-search"><span class="hamburger"></span></button>
-  </header>
-  <main>
-    <section class="hero">
-      <h1>Chunky Chicken Entertainment</h1>
-      <h2>Your Source for Movie and TV Info</h2>
-    </section>
-    <section class="upcoming" id="upcoming">
-      <h2 class="section-header">Upcoming Releases</h2>
-      <ul class="media-list"></ul>
-    </section>
-    <section class="now-playing" id="now-playing">
-      <h2 class="section-header">Now in Theaters</h2>
-      <ul class="media-list"></ul>
-    </section>
-    <section class="trending-movies" id="trending-movies">
-      <h2 class="section-header">Trending Movies</h2>
-      <ul class="media-list"></ul>
-    </section>
-    <section class="trending-tv" id="trending-tv">
-      <h2 class="section-header">Trending TV</h2>
-      <ul class="media-list"></ul>
-    </section>
-  </main>
-  <%- include('./partials/modal.ejs'); -%>
-  <script src="js/index.js" type="module"></script>
-</body>
+<%- include('./partials/site-head.ejs') -%> <%-
+include('./partials/search-header.ejs') -%>
+<main>
+  <section class="hero">
+    <h1>Chunky Chicken Entertainment</h1>
+    <h2>Your Source for Movie and TV Info</h2>
+  </section>
+  <section class="upcoming" id="upcoming">
+    <h2 class="section-header">Upcoming Releases</h2>
+    <ul class="media-list"></ul>
+  </section>
+  <section class="now-playing" id="now-playing">
+    <h2 class="section-header">Now in Theaters</h2>
+    <ul class="media-list"></ul>
+  </section>
+  <section class="trending-movies" id="trending-movies">
+    <h2 class="section-header">Trending Movies</h2>
+    <ul class="media-list"></ul>
+  </section>
+  <section class="trending-tv" id="trending-tv">
+    <h2 class="section-header">Trending TV</h2>
+    <ul class="media-list"></ul>
+  </section>
+</main>
+<%- include('./partials/modal.ejs'); -%>
+<script src="js/index.js" type="module"></script>
 <%- include('./partials/footer.ejs') -%>

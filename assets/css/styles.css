@@ -188,6 +188,9 @@ footer {
     var(--color-primary),
     var(--color-background)
   );
+
+  position: absolute;
+  bottom: 0;
 }
 #bottom-nav {
   font-size: 2rem;
@@ -353,6 +356,20 @@ footer {
 
 #similar-header {
   margin: 2rem 0;
+}
+
+/* ================ 404 STYLING ================ */
+.error-hero {
+  padding: 2rem;
+  text-align: center;
+}
+.error-header {
+  color: var(--color-primary);
+  font-size: 12rem;
+}
+
+.error-text {
+  font-size: 2rem;
 }
 
 /* ================ DESKTOP STYLING ================ */

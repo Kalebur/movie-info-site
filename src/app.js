@@ -5,10 +5,18 @@ const path = require("path");
 const dotenv = require("dotenv").config();
 const api = require("./api.js");
 const open = require("open");
+const helpers = require("./helpers.js");
 
 async function openBrowser() {
   await open("http://localhost:3000");
 }
+
+const whitelist = [
+  "localhost",
+  "localhost:3000",
+  "127.0.0.1",
+  "127.0.0.1:3000",
+];
 
 app.use(express.static(path.join(__dirname, "../assets/")));
 app.set("view engine", "ejs");
@@ -34,6 +42,9 @@ app.get("/trending-tv", (req, res) => {
 });
 
 app.get("/all-genres", (req, res) => {
+  if (!whitelist.includes(req.hostname)) {
+    res.redirect("/404");
+  }
   res.send(api.genreList());
 });
 
@@ -42,11 +53,23 @@ app.get("/cast/:media_id", (req, res) => {
 });
 
 app.get("/recommended/:media_query", (req, res) => {
-  let queryParams = req.params.media_query.split(":");
+  let queryParams = helpers.splitParams(req.params.media_query);
 
   api
     .getRecommendations(queryParams[0], queryParams[1])
     .then((data) => res.send(data));
+});
+
+app.get("/streaming-info/:media_query", (req, res) => {
+  let queryParams = helpers.splitParams(req.params.media_query);
+});
+
+app.get("/404", (req, res) => {
+  res.send("We messed up, boo! We messed UP!");
+});
+
+app.use((req, res) => {
+  res.status(404).render("404");
 });
 
 app.listen(3000, () => {
