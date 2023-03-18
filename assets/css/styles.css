@@ -188,9 +188,6 @@ footer {
     var(--color-primary),
     var(--color-background)
   );
-
-  position: absolute;
-  bottom: 0;
 }
 #bottom-nav {
   font-size: 2rem;
@@ -362,6 +359,7 @@ footer {
 .error-hero {
   padding: 2rem;
   text-align: center;
+  height: 60vh;
 }
 .error-header {
   color: var(--color-primary);

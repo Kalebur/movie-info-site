@@ -98,7 +98,11 @@ async function getRecommendations(mediaID, type = "movie") {
   const recommendations = await response.json();
 
   return recommendations.results.filter((item) => {
-    return item.original_language === "en" && item.adult === false;
+    return (
+      item.original_language === "en" &&
+      item.adult === false &&
+      item.poster_path
+    );
   });
 }
 

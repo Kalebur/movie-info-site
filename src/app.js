@@ -44,8 +44,9 @@ app.get("/trending-tv", (req, res) => {
 app.get("/all-genres", (req, res) => {
   if (!whitelist.includes(req.hostname)) {
     res.redirect("/404");
+  } else {
+    res.send(api.genreList());
   }
-  res.send(api.genreList());
 });
 
 app.get("/cast/:media_id", (req, res) => {
@@ -62,10 +63,6 @@ app.get("/recommended/:media_query", (req, res) => {
 
 app.get("/streaming-info/:media_query", (req, res) => {
   let queryParams = helpers.splitParams(req.params.media_query);
-});
-
-app.get("/404", (req, res) => {
-  res.send("We messed up, boo! We messed UP!");
 });
 
 app.use((req, res) => {
