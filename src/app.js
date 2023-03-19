@@ -65,6 +65,10 @@ app.get("/streaming-info/:media_query", (req, res) => {
   let queryParams = helpers.splitParams(req.params.media_query);
 });
 
+app.get("/search/:query", (req, res) => {
+  api.getSearchResults(req.params.query).then((data) => res.send(data));
+});
+
 app.use((req, res) => {
   res.status(404).render("404");
 });

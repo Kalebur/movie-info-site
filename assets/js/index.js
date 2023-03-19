@@ -1,6 +1,10 @@
 const modal = document.querySelector(".modal");
 const body = document.querySelector("body");
-import { createGenreTag, createPosterItem } from "./createItems.js";
+import {
+  createGenreTag,
+  createPosterItem,
+  createResultsItem,
+} from "./createItems.js";
 import { parseDate } from "./helpers.js";
 
 async function getRecommendedMedia(query) {
@@ -8,6 +12,34 @@ async function getRecommendedMedia(query) {
   const data = response.json();
 
   return data;
+}
+
+async function performSearch(query) {
+  query = encodeURIComponent(query);
+  const resultsList = document.querySelector(".search-results");
+  const movieResults = document.getElementById("movie-results");
+  const tvResults = document.getElementById("tv-results");
+  const response = await fetch(`/search/${query}`);
+  const results = await response.json();
+
+  movieResults.innerHTML = "";
+  tvResults.innerHTML = "";
+  let item = 0;
+  do {
+    movieResults.appendChild(createResultsItem(results.movies.results[item]));
+    item++;
+  } while (item < 5);
+
+  item = 0;
+
+  try {
+    do {
+      tvResults.appendChild(createResultsItem(results.tv.results[item]));
+      item++;
+    } while (item < 5);
+  } catch (err) {}
+
+  resultsList.classList.remove("no-display");
 }
 
 export async function populateModalData(data) {
@@ -19,8 +51,6 @@ export async function populateModalData(data) {
   const overview = document.querySelector(".media-desc");
   const mediaType = data.title ? "movie" : "tv";
   genreList.innerHTML = "";
-  console.log(data);
-  console.log(genres);
   setModalBG(data);
 
   title.textContent = data.title || data.name;
@@ -36,7 +66,6 @@ export async function populateModalData(data) {
   });
 
   if (data.release_date) {
-    console.log(data.release_date);
     releaseDateField.textContent = `Release Date: ${parseDate(
       new Date(data.release_date)
     )}`;
@@ -45,7 +74,6 @@ export async function populateModalData(data) {
   overview.textContent = data.overview;
 
   const queryString = `${data.id}:${mediaType}`;
-  console.log(queryString);
   const similarMedia = await getRecommendedMedia(queryString);
   const similarHeader = document.querySelector("#similar-header");
   const similarList = document.querySelector("#similar-list");
@@ -121,5 +149,17 @@ window.addEventListener("DOMContentLoaded", () => {
   document
     .querySelector(".btn-close-modal")
     .addEventListener("click", closeModal);
+
+  document.getElementById("search").addEventListener("input", (e) => {
+    const searchResultsList = document.querySelector(".results-list");
+    if (e.target.value.length >= 3) {
+      performSearch(e.target.value);
+    }
+    // else {
+    //   if (!searchResultsList.classList.contains("no-display")) {
+    //     searchResultsList.classList.add("no-display");
+    //   }
+    // }
+  });
   populateLists();
 });

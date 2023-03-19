@@ -102,9 +102,46 @@ header::after {
   font-size: 2.5rem;
 }
 
+.search-results {
+  position: absolute;
+  margin: 0 auto;
+  width: 100%;
+  top: 6.5rem;
+  z-index: 10;
+  background-color: var(--color-background);
+  padding: 2rem;
+
+  border-bottom: 0.3rem solid var(--color-primary);
+
+  box-shadow: 0 1.5rem 1rem 1rem var(--color-background-faded);
+}
+
+.search-results h4 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.search-results li {
+  cursor: pointer;
+}
+
+.search-results-poster {
+  width: 15.4rem;
+  height: 23.1rem;
+  background-color: var(--color-primary);
+  display: inline-block;
+}
+
+.results-list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  row-gap: 1rem;
+}
+
 h1,
 h2,
-h3 {
+h3,
+h4 {
   font-family: var(--font-sans);
 }
 
@@ -283,7 +320,7 @@ footer {
   justify-content: center;
   padding: 1.5rem;
 
-  position: absolute;
+  position: fixed;
   top: 1rem;
   right: 3rem;
   border-radius: var(--radius-circle);

@@ -1,15 +1,6 @@
 const dotenv = require("dotenv").config();
+const helpers = require("./helpers.js");
 let genres;
-
-// Reset time back to 00:00:00:00 for the given date
-function zeroClock(date) {
-  date.setMinutes(0);
-  date.setHours(0);
-  date.setSeconds(0);
-  date.setMilliseconds(0);
-
-  return date;
-}
 
 async function initializeGenres() {
   const response = await fetch(
@@ -22,7 +13,7 @@ async function initializeGenres() {
 
 function filterUpcoming(arr) {
   const today = new Date();
-  zeroClock(today);
+  helpers.zeroClock(today);
 
   return arr.filter((item) => {
     const releaseDate = new Date(item.release_date);
@@ -73,7 +64,7 @@ async function getNowPlaying() {
 
   return movies.results.filter((item) => {
     const release = new Date(item.release_date);
-    const earliestRelease = zeroClock(new Date());
+    const earliestRelease = helpers.zeroClock(new Date());
     earliestRelease.setDate(earliestRelease.getDate() - 30);
 
     return release > earliestRelease && release <= new Date();
@@ -99,11 +90,36 @@ async function getRecommendations(mediaID, type = "movie") {
 
   return recommendations.results.filter((item) => {
     return (
-      item.original_language === "en" &&
+      (item.original_language === "en" || item.original_language === "ja") &&
       item.adult === false &&
       item.poster_path
     );
   });
+}
+
+async function getSearchResults(query) {
+  const resultsObj = {};
+  let searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=${
+    process.env.MOVIE
+  }&language=en-US&query=${encodeURIComponent(
+    query
+  )}&page=1&include_adult=false`;
+
+  const movieRes = await fetch(searchUrl);
+  const movieData = await movieRes.json();
+
+  resultsObj.movies = movieData;
+  searchUrl = `https://api.themoviedb.org/3/search/tv?api_key=${
+    process.env.MOVIE
+  }&language=en-US&query=${encodeURIComponent(
+    query
+  )}&page=1&include_adult=false`;
+
+  const tvRes = await fetch(searchUrl);
+  const tvData = await tvRes.json();
+
+  resultsObj.tv = tvData;
+  return resultsObj;
 }
 
 function genreList() {
@@ -116,5 +132,6 @@ module.exports = {
   genreList,
   getNowPlaying,
   getRecommendations,
+  getSearchResults,
   getTrending,
 };

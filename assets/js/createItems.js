@@ -23,6 +23,25 @@ export function createPosterItem(mediaInfo, type = "top-level") {
   return listItem;
 }
 
+export function createResultsItem(mediaInfo = null) {
+  const resultItem = document.createElement("li");
+  resultItem.classList.add("result-item");
+
+  const resultPoster = document.createElement("img");
+  resultPoster.src = "https://image.tmdb.org/t/p/w154" + mediaInfo.poster_path;
+  resultPoster.alt = mediaInfo.title || mediaInfo.name;
+  resultPoster.title = mediaInfo.title || mediaInfo.name;
+  resultPoster.classList.add("search-results-poster");
+
+  resultItem.appendChild(resultPoster);
+
+  resultItem.addEventListener("click", () => {
+    displayModal(mediaInfo);
+  });
+
+  return resultItem;
+}
+
 export function createGenreTag(genreName) {
   const tag = document.createElement("li");
 
