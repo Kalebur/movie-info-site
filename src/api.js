@@ -122,6 +122,19 @@ async function getSearchResults(query) {
   return resultsObj;
 }
 
+async function getStreamingProviders(mediaID, type = "movie") {
+  const response = await fetch(
+    `https://api.themoviedb.org/3/${type}/${mediaID}/watch/providers?api_key=${process.env.MOVIE}`
+  );
+  const data = await response.json();
+
+  if (data.results && data.results.US) {
+    return data.results.US.flatrate;
+  } else {
+    return { msg: "No Providers Found" };
+  }
+}
+
 function genreList() {
   return genres;
 }
@@ -133,5 +146,6 @@ module.exports = {
   getNowPlaying,
   getRecommendations,
   getSearchResults,
+  getStreamingProviders,
   getTrending,
 };

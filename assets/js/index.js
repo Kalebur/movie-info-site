@@ -1,14 +1,23 @@
 const modal = document.querySelector(".modal");
 const body = document.querySelector("body");
+
 import {
   createGenreTag,
   createPosterItem,
   createResultsItem,
 } from "./createItems.js";
+
 import { parseDate } from "./helpers.js";
 
 async function getRecommendedMedia(query) {
   const response = await fetch(`/recommended/${query}`);
+  const data = response.json();
+
+  return data;
+}
+
+async function getStreamingProviders(query) {
+  const response = await fetch(`/streaming-info/${query}`);
   const data = response.json();
 
   return data;
@@ -43,6 +52,8 @@ async function performSearch(query) {
 }
 
 export async function populateModalData(data) {
+  modal.scrollTop = 0;
+
   const title = document.querySelector(".media-name");
   const response = await fetch("/all-genres");
   const genres = await response.json();
@@ -79,12 +90,24 @@ export async function populateModalData(data) {
   const similarList = document.querySelector("#similar-list");
   similarList.innerHTML = "";
 
-  similarMedia.forEach((item) => {
-    similarList.appendChild(createPosterItem(item, "modal"));
-  });
+  console.log(similarMedia);
 
-  similarList.scrollLeft = 0;
-  modal.scrollTop = 0;
+  try {
+    const streaming = await getStreamingProviders(queryString);
+    console.log(streaming);
+  } catch (err) {}
+
+  if (similarMedia.length <= 0) {
+    similarHeader.classList.add("no-display");
+    similarList.classList.add("no-display");
+  } else {
+    similarList.classList.remove("no-display");
+    similarHeader.classList.remove("no-display");
+    similarList.scrollLeft = 0;
+    similarMedia.forEach((item) => {
+      similarList.appendChild(createPosterItem(item, "modal"));
+    });
+  }
 }
 
 export function displayModal(mediaInfo) {
@@ -151,15 +174,14 @@ window.addEventListener("DOMContentLoaded", () => {
     .addEventListener("click", closeModal);
 
   document.getElementById("search").addEventListener("input", (e) => {
-    const searchResultsList = document.querySelector(".results-list");
+    const searchResultsList = document.querySelector(".search-results");
     if (e.target.value.length >= 3) {
       performSearch(e.target.value);
+    } else {
+      if (!searchResultsList.classList.contains("no-display")) {
+        searchResultsList.classList.add("no-display");
+      }
     }
-    // else {
-    //   if (!searchResultsList.classList.contains("no-display")) {
-    //     searchResultsList.classList.add("no-display");
-    //   }
-    // }
   });
   populateLists();
 });

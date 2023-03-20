@@ -63,10 +63,18 @@ app.get("/recommended/:media_query", (req, res) => {
 
 app.get("/streaming-info/:media_query", (req, res) => {
   let queryParams = helpers.splitParams(req.params.media_query);
+
+  api
+    .getStreamingProviders(queryParams[0], queryParams[1])
+    .then((data) => res.status(200).json(data));
 });
 
 app.get("/search/:query", (req, res) => {
   api.getSearchResults(req.params.query).then((data) => res.send(data));
+});
+
+app.get("/get-providers/:media_id", (req, res) => {
+  api.getStreamingProviders();
 });
 
 app.use((req, res) => {
