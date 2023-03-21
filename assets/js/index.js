@@ -34,10 +34,12 @@ async function performSearch(query) {
   movieResults.innerHTML = "";
   tvResults.innerHTML = "";
   let item = 0;
-  do {
-    movieResults.appendChild(createResultsItem(results.movies.results[item]));
-    item++;
-  } while (item < 5);
+  try {
+    do {
+      movieResults.appendChild(createResultsItem(results.movies.results[item]));
+      item++;
+    } while (item < 5);
+  } catch (err) {}
 
   item = 0;
 
@@ -94,7 +96,24 @@ export async function populateModalData(data) {
 
   try {
     const streaming = await getStreamingProviders(queryString);
-    console.log(streaming);
+    const streamingList = document.querySelector("#streaming-list");
+    const streamingHeader = document.querySelector("#streaming-header");
+    streamingList.innerHTML = "";
+
+    if (streaming.length > 0) {
+      streamingHeader.classList.remove("no-display");
+      const logoPathBase = "https://image.tmdb.org/t/p/w92";
+      streaming.forEach((service) => {
+        const logo = document.createElement("img");
+        logo.src = logoPathBase + service.logo_path;
+        logo.title = service.provider_name;
+        logo.alt = service.provider_name;
+        logo.classList.add("streaming-logo");
+        streamingList.appendChild(logo);
+      });
+    } else {
+      streamingHeader.classList.add("no-display");
+    }
   } catch (err) {}
 
   if (similarMedia.length <= 0) {
