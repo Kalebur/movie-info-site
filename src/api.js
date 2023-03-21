@@ -128,7 +128,7 @@ async function getStreamingProviders(mediaID, type = "movie") {
   );
   const data = await response.json();
 
-  if (data.results && data.results.US) {
+  if (data.results && data.results.US && data.results.US.flatrate) {
     return data.results.US.flatrate;
   } else {
     return { msg: "No Providers Found" };

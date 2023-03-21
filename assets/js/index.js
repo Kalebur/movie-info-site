@@ -92,8 +92,6 @@ export async function populateModalData(data) {
   const similarList = document.querySelector("#similar-list");
   similarList.innerHTML = "";
 
-  console.log(similarMedia);
-
   try {
     const streaming = await getStreamingProviders(queryString);
     const streamingList = document.querySelector("#streaming-list");
@@ -114,7 +112,9 @@ export async function populateModalData(data) {
     } else {
       streamingHeader.classList.add("no-display");
     }
-  } catch (err) {}
+  } catch (err) {
+    similarList.innerHTML = "";
+  }
 
   if (similarMedia.length <= 0) {
     similarHeader.classList.add("no-display");

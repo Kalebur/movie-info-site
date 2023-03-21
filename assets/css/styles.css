@@ -397,7 +397,6 @@ footer {
 
 .streaming-logo {
   border-radius: var(--radius-small);
-  cursor: pointer;
   margin: 1rem;
 }
 
