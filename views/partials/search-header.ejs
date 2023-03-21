@@ -8,22 +8,16 @@
     name="search"
     id="search"
     placeholder="Search..."
+    autocomplete="off"
   />
   <button class="btn-search"><span class="hamburger"></span></button>
   <section class="search-results no-display">
-    <h4 class="section-header">Movies</h4>
+    <h4 class="section-header" id="movie-results-header">Movies</h4>
     <ul class="results-list" id="movie-results"></ul>
-    <p>
-      <a href="" class="see-more-link" id="movie-results-link"
-        >See More Results >></a
-      >
-    </p>
-    <h4 class="section-header">TV Shows</h4>
+
+    <h4 class="section-header" id="tv-results-header">TV Shows</h4>
     <ul class="results-list" id="tv-results"></ul>
-    <p>
-      <a href="" class="see-more-link" id="tv-results-link"
-        >See More Results >></a
-      >
-    </p>
+
+    <p class="results-error no-display">No results were found.</p>
   </section>
 </header>

@@ -111,6 +111,10 @@ header::after {
   z-index: 10;
   background-color: var(--color-background);
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   border-bottom: 0.3rem solid var(--color-primary);
 
@@ -120,6 +124,12 @@ header::after {
 .search-results h4 {
   font-size: 2rem;
   margin-bottom: 1.5rem;
+  align-self: flex-start;
+  width: 100%;
+}
+
+.search-results h4:nth-of-type(2) {
+  margin-top: 2rem;
 }
 
 .search-results li {
@@ -131,12 +141,22 @@ header::after {
   height: 23.1rem;
   background-color: var(--color-primary);
   display: inline-block;
+  border-radius: var(--radius-small);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 2.5rem;
 }
 
 .results-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 1rem;
+  gap: 1rem;
+}
+
+.results-error {
+  font-size: 2rem;
 }
 
 h1,
@@ -205,6 +225,7 @@ section {
   display: flex;
   overflow-x: auto;
   margin: 2rem 0 3rem 0;
+  overflow-y: hidden;
 }
 
 .media-list .poster:not(:first-of-type) {
@@ -213,6 +234,9 @@ section {
 
 .poster {
   cursor: pointer;
+  width: 15.4rem;
+  height: 23.1rem;
+  object-fit: cover;
 }
 
 .poster img {
@@ -288,7 +312,7 @@ footer {
   transition: var(--transition-default);
   scroll-behavior: initial;
 
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 20;
@@ -388,6 +412,10 @@ footer {
   margin-top: 0.5rem;
   padding-right: 1rem;
   line-height: 3rem;
+}
+
+#streaming-header {
+  margin-top: 2rem;
 }
 
 .streaming-list {

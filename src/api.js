@@ -87,6 +87,7 @@ async function getRecommendations(mediaID, type = "movie") {
     `https://api.themoviedb.org/3/${type}/${mediaID}/similar?api_key=${process.env.MOVIE}`
   );
   const recommendations = await response.json();
+  console.log(recommendations.results[0]);
 
   return recommendations.results.filter((item) => {
     return (
@@ -119,6 +120,7 @@ async function getSearchResults(query) {
   const tvData = await tvRes.json();
 
   resultsObj.tv = tvData;
+  console.log(resultsObj);
   return resultsObj;
 }
 

@@ -26,30 +26,53 @@ async function getStreamingProviders(query) {
 async function performSearch(query) {
   query = encodeURIComponent(query);
   const resultsList = document.querySelector(".search-results");
+  const movieHeader = document.getElementById("movie-results-header");
   const movieResults = document.getElementById("movie-results");
+  const tvHeader = document.getElementById("tv-results-header");
   const tvResults = document.getElementById("tv-results");
+  const resultsError = document.querySelector(".results-error");
   const response = await fetch(`/search/${query}`);
   const results = await response.json();
 
   movieResults.innerHTML = "";
   tvResults.innerHTML = "";
+  resultsError.classList.add("no-display");
   let item = 0;
   try {
-    do {
-      movieResults.appendChild(createResultsItem(results.movies.results[item]));
-      item++;
-    } while (item < 5);
+    if (results.movies.results.length > 0) {
+      do {
+        movieHeader.classList.remove("no-display");
+        movieResults.classList.remove("no-display");
+        movieResults.appendChild(
+          createResultsItem(results.movies.results[item])
+        );
+        item++;
+      } while (item < 5);
+    } else {
+      movieHeader.classList.add("no-display");
+      movieResults.classList.add("no-display");
+    }
   } catch (err) {}
 
   item = 0;
 
   try {
-    do {
-      tvResults.appendChild(createResultsItem(results.tv.results[item]));
-      item++;
-    } while (item < 5);
+    if (results.tv.results.length > 0) {
+      tvHeader.classList.remove("no-display");
+      tvResults.classList.remove("no-display");
+      do {
+        tvResults.appendChild(createResultsItem(results.tv.results[item]));
+        item++;
+      } while (item < 5);
+    } else {
+      tvHeader.classList.add("no-display");
+      tvResults.classList.add("no-display");
+    }
   } catch (err) {}
 
+  if (results.movies.results.length === 0 && results.tv.results.length === 0) {
+    resultsError.classList.remove("no-display");
+  }
   resultsList.classList.remove("no-display");
 }
 
@@ -132,7 +155,6 @@ export async function populateModalData(data) {
 export function displayModal(mediaInfo) {
   populateModalData(mediaInfo);
 
-  modal.style.top = `${window.scrollY}px`;
   modal.classList.remove("modal-hidden");
   modal.classList.add("active");
 
