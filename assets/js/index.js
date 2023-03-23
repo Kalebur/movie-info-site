@@ -37,33 +37,26 @@ async function performSearch(query) {
   movieResults.innerHTML = "";
   tvResults.innerHTML = "";
   resultsError.classList.add("no-display");
-  let item = 0;
   try {
     if (results.movies.results.length > 0) {
-      do {
+      for (let i = 0; i < results.movies.results.length; i++) {
         movieHeader.classList.remove("no-display");
         movieResults.classList.remove("no-display");
-        movieResults.appendChild(
-          createResultsItem(results.movies.results[item])
-        );
-        item++;
-      } while (item < 5);
+        movieResults.appendChild(createResultsItem(results.movies.results[i]));
+      }
     } else {
       movieHeader.classList.add("no-display");
       movieResults.classList.add("no-display");
     }
   } catch (err) {}
 
-  item = 0;
-
   try {
     if (results.tv.results.length > 0) {
       tvHeader.classList.remove("no-display");
       tvResults.classList.remove("no-display");
-      do {
-        tvResults.appendChild(createResultsItem(results.tv.results[item]));
-        item++;
-      } while (item < 5);
+      for (let i = 0; i < results.tv.results.length; i++) {
+        tvResults.appendChild(createResultsItem(results.tv.results[i]));
+      }
     } else {
       tvHeader.classList.add("no-display");
       tvResults.classList.add("no-display");

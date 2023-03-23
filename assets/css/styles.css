@@ -157,6 +157,10 @@ header::after {
   gap: 1rem;
 }
 
+.result-item:nth-child(n + 6) {
+  display: none;
+}
+
 .results-error {
   font-size: 2rem;
 }
@@ -450,6 +454,21 @@ footer {
 
 .error-text {
   font-size: 2rem;
+}
+
+/* ================ TABLET STYLING ================ */
+@media screen and (min-width: 600px) {
+  .results-list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .result-item:nth-child(n + 6) {
+    display: initial;
+  }
+
+  .result-item:nth-child(n + 11) {
+    display: none;
+  }
 }
 
 /* ================ DESKTOP STYLING ================ */
