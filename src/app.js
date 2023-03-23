@@ -86,6 +86,14 @@ app.get("/details/:media_query", (req, res) => {
   res.status(200).send("OK!");
 });
 
+app.get("/about", (req, res) => {
+  res.render("about");
+});
+
+app.get("/privacy", (req, res) => {
+  res.render("privacy");
+});
+
 app.use((req, res) => {
   res.status(404).render("404");
 });

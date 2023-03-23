@@ -28,6 +28,7 @@
 body {
   background-color: var(--color-background);
   color: var(--color-text);
+  min-height: 100vh;
 
   font-family: var(--font-serif);
   font-weight: 300;
@@ -37,6 +38,7 @@ body {
 header {
   position: relative;
   display: flex;
+  height: 6.5rem;
 }
 
 header::after {
@@ -49,7 +51,7 @@ header::after {
   left: 0.5rem;
 
   display: block;
-  z-index: 10;
+  z-index: 11;
 }
 
 .btn-search {
@@ -250,6 +252,9 @@ footer {
     var(--color-primary),
     var(--color-background)
   );
+
+  bottom: 0;
+  position: sticky;
 }
 #bottom-nav {
   font-size: 2rem;
