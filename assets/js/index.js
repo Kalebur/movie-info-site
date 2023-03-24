@@ -66,6 +66,7 @@ async function performSearch(query) {
   if (results.movies.results.length === 0 && results.tv.results.length === 0) {
     resultsError.classList.remove("no-display");
   }
+
   resultsList.classList.remove("no-display");
 }
 
@@ -156,8 +157,11 @@ export function displayModal(mediaInfo) {
 
 function setModalBG(mediaInfo) {
   const baseUrl = "https://image.tmdb.org/t/p/w500";
-  const bgStyle = `linear-gradient(to top, #000510 10%, rgba(0, 5, 16, 0.7)), url('${
-    baseUrl + mediaInfo.poster_path
+  const posterUrl = baseUrl + mediaInfo.poster_path;
+  const backdropBaseUrl = "https://image.tmdb.org/t/p/w1280";
+  const backdropUrl = backdropBaseUrl + mediaInfo.backdrop_path;
+  const bgStyle = `linear-gradient(to top, var(--color-background) 10%, rgba(0, 5, 16, 0.7)), url('${
+    window.innerWidth >= 960 ? backdropUrl || posterUrl : posterUrl
   }')`;
   modal.style.backgroundImage = bgStyle;
 }

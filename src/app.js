@@ -82,7 +82,6 @@ app.get("/similar/:media_query", (req, res) => {
 app.get("/details/:media_query", (req, res) => {
   let queryParams = helpers.splitParams(req.params.media_query);
 
-  console.log(req.params.media_query);
   res.status(200).send("OK!");
 });
 
