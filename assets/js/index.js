@@ -161,7 +161,11 @@ function setModalBG(mediaInfo) {
   const backdropBaseUrl = "https://image.tmdb.org/t/p/w1280";
   const backdropUrl = backdropBaseUrl + mediaInfo.backdrop_path;
   const bgStyle = `linear-gradient(to top, var(--color-background) 10%, rgba(0, 5, 16, 0.7)), url('${
-    window.innerWidth >= 960 ? backdropUrl || posterUrl : posterUrl
+    window.innerWidth >= 960
+      ? mediaInfo.backdrop_path
+        ? backdropUrl
+        : posterUrl
+      : posterUrl
   }')`;
   modal.style.backgroundImage = bgStyle;
 }
