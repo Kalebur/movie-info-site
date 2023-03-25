@@ -21,6 +21,8 @@ The app utilizes a back-end Express API that performs all external API calls and
 
 This app requires an API key from [The Movie Database](https://www.themoviedb.org) and has been developed and configured using version 3 of their API.
 
+Additionally, the back end makes use of `fetch()` which requires `Node 18.0 or higher` to work by default.
+
 ### Installation Instructions
 
 1. Clone this repo to your system
