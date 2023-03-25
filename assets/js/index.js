@@ -36,6 +36,9 @@ async function performSearch(query) {
 
   movieResults.innerHTML = "";
   tvResults.innerHTML = "";
+
+  // Filter items without poster images from the results
+  // and display the list of movies returned, if any
   const movieResultsList = results.movies.results.filter((item) => {
     return filterNullPosters(item);
   });
@@ -53,9 +56,12 @@ async function performSearch(query) {
     }
   } catch (err) {}
 
+  // Filter items without poster images from the results
+  // and display the list of TV shows returned, if any
   const tvResultsList = results.tv.results.filter((item) => {
     return filterNullPosters(item);
   });
+
   try {
     if (tvResultsList.length > 0) {
       tvHeader.classList.remove("no-display");
@@ -69,6 +75,7 @@ async function performSearch(query) {
     }
   } catch (err) {}
 
+  // If no results are returned, display proper message
   if (movieResultsList.length === 0 && tvResultsList.length === 0) {
     resultsError.classList.remove("no-display");
   }
@@ -136,9 +143,11 @@ export async function populateModalData(data) {
       streamingHeader.classList.add("no-display");
     }
   } catch (err) {
-    similarList.innerHTML = "";
+    streamingList.innerHTML = "";
   }
 
+  // Hide "You May Also Like" section if no similiar
+  // media are returned from API
   if (similarMedia.length <= 0) {
     similarHeader.classList.add("no-display");
     similarList.classList.add("no-display");
@@ -166,10 +175,15 @@ function setModalBG(mediaInfo) {
   const posterUrl = baseUrl + mediaInfo.poster_path;
   const backdropBaseUrl = "https://image.tmdb.org/t/p/w1280";
   const backdropUrl = backdropBaseUrl + mediaInfo.backdrop_path;
+
+  // Check to see if screen is larger than 960px. If so, show
+  // the media backdrop image instead of the poster if it has one
+  // If not, show the poster. For smaller screens, use the poster
+  // as the background image
   const bgStyle = `linear-gradient(to top, var(--color-background) 10%, rgba(0, 5, 16, 0.7)), url('${
     window.innerWidth >= 960
       ? mediaInfo.backdrop_path
-        ? backdropUrl
+        ? backdropUrl // backdrop, if available
         : posterUrl
       : posterUrl
   }')`;
@@ -187,33 +201,35 @@ function closeModal() {
 }
 
 async function populateLists() {
-  const upcoming = await (await fetch("/upcoming")).json();
-  const upcomingList = document.querySelector(".upcoming ul");
+  try {
+    const upcoming = await (await fetch("/upcoming")).json();
+    const upcomingList = document.querySelector(".upcoming ul");
 
-  upcoming.forEach((item) => {
-    upcomingList.appendChild(createPosterItem(item));
-  });
+    upcoming.forEach((item) => {
+      upcomingList.appendChild(createPosterItem(item));
+    });
 
-  const nowPlaying = await (await fetch("/now-playing")).json();
-  const nowPlayingList = document.querySelector(".now-playing ul");
+    const nowPlaying = await (await fetch("/now-playing")).json();
+    const nowPlayingList = document.querySelector(".now-playing ul");
 
-  nowPlaying.forEach((item) => {
-    nowPlayingList.appendChild(createPosterItem(item));
-  });
+    nowPlaying.forEach((item) => {
+      nowPlayingList.appendChild(createPosterItem(item));
+    });
 
-  const trendingMovies = await (await fetch("/trending-movies")).json();
-  const trendingMoviesList = document.querySelector(".trending-movies ul");
+    const trendingMovies = await (await fetch("/trending-movies")).json();
+    const trendingMoviesList = document.querySelector(".trending-movies ul");
 
-  trendingMovies.forEach((item) => {
-    trendingMoviesList.appendChild(createPosterItem(item));
-  });
+    trendingMovies.forEach((item) => {
+      trendingMoviesList.appendChild(createPosterItem(item));
+    });
 
-  const trendingTV = await (await fetch("/trending-tv")).json();
-  const trendingTVList = document.querySelector(".trending-tv ul");
+    const trendingTV = await (await fetch("/trending-tv")).json();
+    const trendingTVList = document.querySelector(".trending-tv ul");
 
-  trendingTV.forEach((item) => {
-    trendingTVList.appendChild(createPosterItem(item));
-  });
+    trendingTV.forEach((item) => {
+      trendingTVList.appendChild(createPosterItem(item));
+    });
+  } catch (err) {}
 }
 
 window.addEventListener("DOMContentLoaded", () => {
