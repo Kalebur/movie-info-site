@@ -18,3 +18,7 @@ export function parseDate(date) {
 
   return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
+
+export function filterNullPosters(mediaInfo) {
+  return mediaInfo.poster_path !== null;
+}

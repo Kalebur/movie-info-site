@@ -277,6 +277,18 @@ section {
   line-height: 2.5rem;
 }
 
+.general-link {
+  color: var(--color-text);
+  transition: var(--transition-default);
+
+  text-decoration: none;
+  font-family: var(--font-sans);
+}
+
+.general-link:hover {
+  color: var(--color-primary);
+}
+
 /* ================ FOOTER STYLING ================ */
 footer {
   background: linear-gradient(

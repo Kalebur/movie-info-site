@@ -7,7 +7,7 @@ import {
   createResultsItem,
 } from "./createItems.js";
 
-import { parseDate } from "./helpers.js";
+import { filterNullPosters, parseDate } from "./helpers.js";
 
 async function getRecommendedMedia(query) {
   const response = await fetch(`/recommended/${query}`);
@@ -36,13 +36,16 @@ async function performSearch(query) {
 
   movieResults.innerHTML = "";
   tvResults.innerHTML = "";
+  const movieResultsList = results.movies.results.filter((item) => {
+    return filterNullPosters(item);
+  });
   resultsError.classList.add("no-display");
   try {
-    if (results.movies.results.length > 0) {
-      for (let i = 0; i < results.movies.results.length; i++) {
+    if (movieResultsList.length > 0) {
+      for (let i = 0; i < movieResultsList.length; i++) {
         movieHeader.classList.remove("no-display");
         movieResults.classList.remove("no-display");
-        movieResults.appendChild(createResultsItem(results.movies.results[i]));
+        movieResults.appendChild(createResultsItem(movieResultsList[i]));
       }
     } else {
       movieHeader.classList.add("no-display");
@@ -50,12 +53,15 @@ async function performSearch(query) {
     }
   } catch (err) {}
 
+  const tvResultsList = results.tv.results.filter((item) => {
+    return filterNullPosters(item);
+  });
   try {
-    if (results.tv.results.length > 0) {
+    if (tvResultsList.length > 0) {
       tvHeader.classList.remove("no-display");
       tvResults.classList.remove("no-display");
-      for (let i = 0; i < results.tv.results.length; i++) {
-        tvResults.appendChild(createResultsItem(results.tv.results[i]));
+      for (let i = 0; i < tvResultsList.length; i++) {
+        tvResults.appendChild(createResultsItem(tvResultsList[i]));
       }
     } else {
       tvHeader.classList.add("no-display");
@@ -63,7 +69,7 @@ async function performSearch(query) {
     }
   } catch (err) {}
 
-  if (results.movies.results.length === 0 && results.tv.results.length === 0) {
+  if (movieResultsList.length === 0 && tvResultsList.length === 0) {
     resultsError.classList.remove("no-display");
   }
 
