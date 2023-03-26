@@ -28,7 +28,7 @@ Additionally, the back end makes use of `fetch()` which requires `Node 18.0 or h
 1. Clone this repo to your system
 2. Create a `.env` file in the project's root directory
 3. Include your TMDb API key in the .env file as `MOVIE=<< YOUR API KEY >>`
-4. [OPTIONAL] Provide a `PORT` for the server to listen to in the .env file
+4. **[OPTIONAL]** Provide a `PORT` for the server to listen to in the .env file
 5. Run `npm install` to install all the project dependencies
-6. Run `npm start` to spin up the server. [NOTE] You can provide a port number during this step by typing `npm start --port=<PORT>`
+6. Run `npm start` to spin up the server. **[NOTE]** You can provide a port number during this step by typing `npm start --port=<PORT>`
 7. Navigate to `localhost:<PORT>` in your browser. If no port is provided with `npm start --port=<PORT>` and no `PORT` environment variable is defined, the server will default to port `3000`

@@ -7,6 +7,8 @@ async function initializeGenres() {
     `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.MOVIE}&language=en-US`
   );
   const genreList = await response.json();
+  genreList.genres.push({ id: 10765, name: "Sci-fi & Fantasy" });
+  genreList.genres.push({ id: 10759, name: "Action & Adventure" });
 
   genres = [...genreList.genres];
 }
