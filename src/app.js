@@ -7,8 +7,8 @@ const api = require("./api.js");
 const open = require("open");
 const helpers = require("./helpers.js");
 
-async function openBrowser() {
-  await open("http://localhost:3000");
+async function openBrowser(port) {
+  await open(`http://localhost:${port}`);
 }
 
 const whitelist = [
@@ -97,8 +97,18 @@ app.use((req, res) => {
   res.status(404).render("404");
 });
 
-app.listen(3000, () => {
+app.listen(process.env.npm_config_port || process.env.PORT || 3000, () => {
   api.initializeGenres();
-  console.log("App running on port 3000");
-  // openBrowser();
+
+  if (!process.env.npm_config_port) {
+    console.log(
+      "No port provided in command line. Looking for PORT environment variable."
+    );
+    if (!process.env.PORT) {
+      console.log("No PORT environment variable found. Defaulting to 3000.");
+    }
+  }
+  const port = process.env.npm_config_port || process.env.PORT || 3000;
+  console.log(`Express server listening on port ${port}.`);
+  // openBrowser(port);
 });

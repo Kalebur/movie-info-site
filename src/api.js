@@ -65,9 +65,13 @@ async function getNowPlaying() {
   return movies.results.filter((item) => {
     const release = new Date(item.release_date);
     const earliestRelease = helpers.zeroClock(new Date());
-    earliestRelease.setDate(earliestRelease.getDate() - 30);
+    earliestRelease.setDate(earliestRelease.getDate() - 21);
 
-    return release > earliestRelease && release <= new Date();
+    return (
+      release >= earliestRelease &&
+      release <= new Date() &&
+      item.original_language === "en"
+    );
   });
 }
 
