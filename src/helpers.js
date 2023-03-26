@@ -1,3 +1,31 @@
+function filterUpcoming(arr) {
+  const today = new Date();
+  zeroClock(today);
+
+  return arr.filter((item) => {
+    const releaseDate = new Date(item.release_date);
+
+    return (
+      releaseDate > today &&
+      item.original_language === "en" &&
+      item.adult === false
+    );
+  });
+}
+
+function filterNowPlaying(movie) {
+  const release = new Date(movie.release_date);
+  const earliestRelease = zeroClock(new Date());
+  earliestRelease.setDate(earliestRelease.getDate() - 21);
+
+  return (
+    release >= earliestRelease &&
+    release <= new Date() &&
+    movie.original_language === "en" &&
+    movie.poster_path !== null
+  );
+}
+
 function splitParams(params) {
   return params.split(":");
 }
@@ -12,4 +40,4 @@ function zeroClock(date) {
   return date;
 }
 
-module.exports = { splitParams, zeroClock };
+module.exports = { filterNowPlaying, filterUpcoming, splitParams, zeroClock };

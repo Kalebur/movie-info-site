@@ -492,6 +492,10 @@ footer {
   margin: 2rem 0;
 }
 
+#similar-list li {
+  opacity: 0;
+}
+
 /* ================ 404 STYLING ================ */
 .error-hero {
   padding: 2rem;
@@ -678,4 +682,21 @@ footer {
 
 .no-scroll {
   overflow: hidden;
+}
+
+.fade-in {
+  animation-name: fade-in;
+  animation-duration: 0.1s;
+  animation-fill-mode: forwards;
+}
+
+/* ================ ANIMATIONS ================ */
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

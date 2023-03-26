@@ -155,8 +155,10 @@ export async function populateModalData(data) {
     similarList.classList.remove("no-display");
     similarHeader.classList.remove("no-display");
     similarList.scrollLeft = 0;
+    let delay = 0;
     similarMedia.forEach((item) => {
-      similarList.appendChild(createPosterItem(item, "modal"));
+      similarList.appendChild(createPosterItem(item, "modal", delay));
+      delay += 0.05;
     });
   }
 }

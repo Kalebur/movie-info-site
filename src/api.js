@@ -13,19 +13,14 @@ async function initializeGenres() {
   genres = [...genreList.genres];
 }
 
-function filterUpcoming(arr) {
-  const today = new Date();
-  helpers.zeroClock(today);
+async function fetchMoreMedia(fetchURL, filterFuncs = []) {
+  const media = await (await fetch(fetchURL)).json();
 
-  return arr.filter((item) => {
-    const releaseDate = new Date(item.release_date);
-
-    return (
-      releaseDate > today &&
-      item.original_language === "en" &&
-      item.adult === false
-    );
+  let filteredMedia = media.results.filter((item) => {
+    return filterFuncs[0](item);
   });
+
+  return filteredMedia;
 }
 
 async function getUpcomingMovies() {
@@ -35,7 +30,7 @@ async function getUpcomingMovies() {
   const movies = await response.json();
   let page = 2;
 
-  let upcoming = filterUpcoming(movies.results);
+  let upcoming = helpers.filterUpcoming(movies.results);
 
   while (upcoming.length < 10 && page < movies.total_pages) {
     const res = await fetch(
@@ -43,7 +38,7 @@ async function getUpcomingMovies() {
     );
     const movs = await res.json();
 
-    let filtered = filterUpcoming(movs.results);
+    let filtered = helpers.filterUpcoming(movs.results);
     upcoming.push(...filtered);
 
     page++;
@@ -59,22 +54,26 @@ async function getUpcomingMovies() {
 }
 
 async function getNowPlaying() {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.MOVIE}&language=en-US&page=1`
-  );
+  let currentPage = 1;
+  const fetchUrlBase = `https://api.themoviedb.org/3/movie/now_playing?api_key=${process.env.MOVIE}&region=US&language=en-US&page=`;
+  const response = await fetch(fetchUrlBase + currentPage);
   const movies = await response.json();
 
-  return movies.results.filter((item) => {
-    const release = new Date(item.release_date);
-    const earliestRelease = helpers.zeroClock(new Date());
-    earliestRelease.setDate(earliestRelease.getDate() - 21);
-
-    return (
-      release >= earliestRelease &&
-      release <= new Date() &&
-      item.original_language === "en"
-    );
+  const filteredMovies = movies.results.filter((movie) => {
+    return helpers.filterNowPlaying(movie);
   });
+
+  currentPage++;
+
+  while (filteredMovies.length < 10 && currentPage < movies.total_pages) {
+    const response = await fetchMoreMedia(fetchUrlBase + currentPage, [
+      helpers.filterNowPlaying,
+    ]);
+    filteredMovies.push(...response);
+    currentPage++;
+  }
+
+  return filteredMovies;
 }
 
 async function getTrending(type = "movie") {
