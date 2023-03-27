@@ -1,16 +1,15 @@
-function filterUpcoming(arr) {
+function filterUpcoming(item) {
   const today = new Date();
   zeroClock(today);
 
-  return arr.filter((item) => {
-    const releaseDate = new Date(item.release_date);
+  const releaseDate = new Date(item.release_date);
 
-    return (
-      releaseDate > today &&
-      item.original_language === "en" &&
-      item.adult === false
-    );
-  });
+  return (
+    releaseDate > today &&
+    item.original_language === "en" &&
+    item.adult === false &&
+    item.poster_path !== null
+  );
 }
 
 function filterNowPlaying(movie) {

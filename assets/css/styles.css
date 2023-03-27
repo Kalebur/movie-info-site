@@ -244,6 +244,7 @@ section {
   width: 15.4rem;
   height: 23.1rem;
   object-fit: cover;
+  transition: var(--transition-default);
 }
 
 .poster img {
@@ -690,7 +691,7 @@ footer {
   animation-fill-mode: forwards;
 }
 
-/* ================ ANIMATIONS ================ */
+/* ================ KEYFRAME ANIMATIONS ================ */
 @keyframes fade-in {
   0% {
     opacity: 0;

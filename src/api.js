@@ -24,22 +24,27 @@ async function fetchMoreMedia(fetchURL, filterFuncs = []) {
 }
 
 async function getUpcomingMovies() {
-  const response = await fetch(
-    `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.MOVIE}&language=en-US&page=1`
-  );
+  let page = 1;
+  const fetchUrlBase = `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.MOVIE}&language=en-US&page=`;
+  const response = await fetch(fetchUrlBase + page);
   const movies = await response.json();
-  let page = 2;
 
-  let upcoming = helpers.filterUpcoming(movies.results);
+  let upcoming = movies.results.filter((movie) => {
+    helpers.filterUpcoming(movie);
+  });
+  page++;
 
   while (upcoming.length < 10 && page < movies.total_pages) {
-    const res = await fetch(
-      `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.MOVIE}&language=en-US&page=${page}`
-    );
-    const movs = await res.json();
+    // const res = await fetch(
+    //   `https://api.themoviedb.org/3/movie/upcoming?api_key=${process.env.MOVIE}&language=en-US&page=${page}`
+    // );
+    // const movs = await res.json();
 
-    let filtered = helpers.filterUpcoming(movs.results);
-    upcoming.push(...filtered);
+    // let filtered = helpers.filterUpcoming(movs.results);
+    const response = await fetchMoreMedia(fetchUrlBase + page, [
+      helpers.filterUpcoming,
+    ]);
+    upcoming.push(...response);
 
     page++;
   }
