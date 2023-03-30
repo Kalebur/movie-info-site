@@ -110,5 +110,5 @@ app.listen(process.env.npm_config_port || process.env.PORT || 3000, () => {
   }
   const port = process.env.npm_config_port || process.env.PORT || 3000;
   console.log(`Express server listening on port ${port}.`);
-  openBrowser(port);
+  // openBrowser(port);
 });
