@@ -42,11 +42,7 @@ app.get("/trending-tv", (req, res) => {
 });
 
 app.get("/all-genres", (req, res) => {
-  if (!whitelist.includes(req.hostname)) {
-    res.redirect("/404");
-  } else {
-    res.send(api.genreList());
-  }
+  res.send(api.genreList());
 });
 
 app.get("/cast/:media_id", (req, res) => {
