@@ -8,6 +8,9 @@ This project was created to make use of [The Movie Database API](https://www.the
 
 The app utilizes a back-end Express API that performs all external API calls and serves that information up to the front end. It implements [EJS](https://ejs.co/) views and partials to reduce duplicating code for items that are present on all pages.
 
+[View the Site Live](https://chunky-chicken-entertainment.onrender.com/)
+_Site may take a couple of mins to load. The hosting service goes idle if it hasn't been accessed recently._
+
 ## Features
 
 - Use arrays, objects, sets or maps to store and retrieve information that is displayed in your app.
